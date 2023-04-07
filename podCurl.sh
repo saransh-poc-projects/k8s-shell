@@ -3,25 +3,27 @@
 # Set variables
 namespaces_file="namespaces.json"
 json_file="urls.json"
-output_file="results.csv"
-errors_file="errors.csv"
 timestamp=$(date +%Y-%m-%d_%H:%M:%S)
-
-# Create header for output file
-echo "Date,Time,Namespace,Pod Name,Pass Count,Fail Count" > $output_file
-
-# Create header for errors file
-echo "Namespace,Pod Name,URL,Response" > $errors_file
 
 # Loop through namespaces
 for namespace in $(cat $namespaces_file | jq -r '.[].namespace')
 do
   echo "Executing curl commands in namespace: $namespace"
   
+  # Set output file for this namespace
+  output_file="results_${namespace}.csv"
+  
+  # Create header for output file
+  echo "Date,Time,Namespace,Pod Name,Pass Count,Fail Count" > $output_file
+  
   # Loop through pods in namespace
   for pod in $(kubectl get pods -n $namespace | awk '{print $1}' | tail -n +2)
   do
     echo "Executing curl commands in pod: $pod"
+    
+    # Set counts to zero for this pod
+    fail_count=0
+    pass_count=0
     
     # Loop through URLs in JSON file
     for url in $(cat $json_file | jq -r '.[].url')
@@ -44,9 +46,5 @@ do
     
     # Write results to output file
     echo "$timestamp,$namespace,$pod,$pass_count,$fail_count" >> $output_file
-    
-    # Reset counts for next pod
-    fail_count=0
-    pass_count=0
   done
 done
