@@ -4,10 +4,14 @@
 namespaces_file="namespaces.json"
 json_file="urls.json"
 output_file="results.csv"
+errors_file="errors.csv"
 timestamp=$(date +%Y-%m-%d_%H:%M:%S)
 
 # Create header for output file
 echo "Date,Time,Namespace,Pod Name,Pass Count,Fail Count" > $output_file
+
+# Create header for errors file
+echo "Namespace,Pod Name,URL,Response" > $errors_file
 
 # Loop through namespaces
 for namespace in $(cat $namespaces_file | jq -r '.[].namespace')
@@ -32,6 +36,9 @@ do
       else
         echo "FAILURE: $url returned $response"
         ((fail_count++))
+        
+        # Write failed request to errors file
+        echo "$namespace,$pod,$url,$response" >> $errors_file
       fi
     done
     
