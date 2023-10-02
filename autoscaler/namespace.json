@@ -1,0 +1,21 @@
+{
+  "cluster":
+    {
+      "env1": 
+        {
+          "namespace": "",
+          "min_replicas": "",
+          "max_replicas": "",
+          "scale_down": "",
+          "scale_up": ""
+        },
+      "env2": 
+        {
+          "namespace": "",
+          "min_replicas": "",
+          "max_replicas": "",
+          "scale_down": "",
+          "scale_up": ""
+        }
+    }
+}
