@@ -1,21 +1,17 @@
 {
-  "cluster":
+  "cluster-name":
     {
-      "env1": 
+      "develop-env": 
         {
-          "namespace": "",
-          "min_replicas": "",
-          "max_replicas": "",
-          "scale_down": "",
-          "scale_up": ""
+          "namespace": "kubernetes-ns-develop",
+          "min_replicas": "0",
+          "max_replicas": "2"          
         },
-      "env2": 
+      "sit-env": 
         {
-          "namespace": "",
-          "min_replicas": "",
-          "max_replicas": "",
-          "scale_down": "",
-          "scale_up": ""
+          "namespace": "kubernetes-ns-sit",
+          "min_replicas": "0",
+          "max_replicas": "4"
         }
     }
 }
